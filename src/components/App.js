@@ -32,12 +32,21 @@ export default class App extends React.Component {
     }
   }
 
+  switchSteps = () => {
+    console.log(this.state.currentStep)
+  }
+
   previousButtonClick = () => {
     console.log('Prev clicked')
     if (this.state.currentStep > 1) {
       this.setState({
         currentStep: this.state.currentStep - 1,
       })
+      // this.setState((prevState, props) => {
+      // console.log(prevState)
+      // currentStep: prevState.state.currentStep - 1,
+      // })
+      // this.switchSteps()
     }
   }
 
@@ -47,7 +56,16 @@ export default class App extends React.Component {
       this.setState({
         currentStep: this.state.currentStep + 1,
       })
+      this.switchSteps()
     }
+  }
+
+  resetButtonClick = () => {
+    console.log('Reset clicked')
+    this.setState({
+      currentStep: 1,
+    })
+    this.switchSteps()
   }
 
   render() {
@@ -59,6 +77,8 @@ export default class App extends React.Component {
           <FormFooter
             previousButtonClick={this.previousButtonClick}
             nextButtonClick={this.nextButtonClick}
+            resetButtonClick={this.resetButtonClick}
+            currentStep={this.state.currentStep}
           />
         </form>
       </div>
