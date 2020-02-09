@@ -1,6 +1,11 @@
 import React from 'react'
+// import countries from '../data/countries'
+// import cities from '../data/cities'
 import FormHeader from './FormHeader'
-import FormBody from './FormBody'
+import FormBasic from './FormBasic'
+import FormContacts from './FormContacts'
+import FormAvatar from './FormAvatar'
+import FormFinish from './FormFinish'
 import FormFooter from './FormFooter'
 
 export default class App extends React.Component {
@@ -10,10 +15,10 @@ export default class App extends React.Component {
     this.state = {
       currentStep: 1,
       steps: [
-        { id: 1, isActive: true, isCompleted: false, name: 'basic' },
-        { id: 2, isActive: false, isCompleted: false, name: 'contacts' },
-        { id: 3, isActive: false, isCompleted: false, name: 'avatar' },
-        { id: 4, isActive: false, isCompleted: false, name: 'finish' },
+        { id: 1, name: 'basic' },
+        { id: 2, name: 'contacts' },
+        { id: 3, name: 'avatar' },
+        { id: 4, name: 'finish' },
       ],
       values: {
         firstname: '',
@@ -32,32 +37,29 @@ export default class App extends React.Component {
     }
   }
 
-  switchSteps = () => {
-    console.log(this.state.currentStep)
+  onChange = e => {
+    // console.log(e.target.value)
+    // console.log(e.target.name)
+    this.setState({
+      values: {
+        ...this.state.values,
+        [e.target.name]: e.target.value,
+      },
+    })
   }
 
   previousButtonClick = () => {
     console.log('Prev clicked')
-    if (this.state.currentStep > 1) {
-      this.setState({
-        currentStep: this.state.currentStep - 1,
-      })
-      // this.setState((prevState, props) => {
-      // console.log(prevState)
-      // currentStep: prevState.state.currentStep - 1,
-      // })
-      // this.switchSteps()
-    }
+    this.setState({
+      currentStep: this.state.currentStep - 1,
+    })
   }
 
   nextButtonClick = () => {
     console.log('Next clicked')
-    if (this.state.currentStep < Object.keys(this.state.steps).length) {
-      this.setState({
-        currentStep: this.state.currentStep + 1,
-      })
-      this.switchSteps()
-    }
+    this.setState({
+      currentStep: this.state.currentStep + 1,
+    })
   }
 
   resetButtonClick = () => {
@@ -65,15 +67,25 @@ export default class App extends React.Component {
     this.setState({
       currentStep: 1,
     })
-    this.switchSteps()
   }
 
   render() {
     return (
       <div className="form-container card">
         <form className="form card-body">
-          <FormHeader steps={this.state.steps} />
-          <FormBody />
+          <FormHeader
+            steps={this.state.steps}
+            currentStep={this.state.currentStep}
+          />
+          {this.state.currentStep === 1 ? (
+            <FormBasic values={this.state.values} onChange={this.onChange} />
+          ) : this.state.currentStep === 2 ? (
+            <FormContacts />
+          ) : this.state.currentStep === 3 ? (
+            <FormAvatar />
+          ) : (
+            <FormFinish />
+          )}
           <FormFooter
             previousButtonClick={this.previousButtonClick}
             nextButtonClick={this.nextButtonClick}

@@ -1,16 +1,13 @@
 import React from 'react'
 
 const FormHeader = props => {
-  const { steps } = props
+  const { steps, currentStep } = props
 
   const stepClasses = step => {
     let result = 'form__steps-item step'
-    if (step.isActive) result += ' step_active'
-    if (step.isCompleted) result += ' step_completed'
+    if (step.id === currentStep) result += ' step_active'
+    // if (step.isCompleted) result += ' step_completed'
     return result
-    // return `form__steps-item step ${step.isActive ? 'step_active' : ''} ${
-    //   step.isCompleted ? 'step_completed' : ''
-    // }`
   }
 
   return (

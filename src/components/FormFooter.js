@@ -16,7 +16,7 @@ const FormFooter = props => {
             className="btn btn-secondary"
             type="button"
             onClick={previousButtonClick}
-            disabled={currentStep === 1 ? true : false}
+            disabled={currentStep === 1}
           >
             Previous
           </button>
