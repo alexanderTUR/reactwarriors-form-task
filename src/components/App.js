@@ -57,9 +57,30 @@ export default class App extends React.Component {
     ) {
       errors.firstname = 'Must be 5 characters or more'
     }
-    this.setState({
-      errors: errors,
-    })
+    if (this.state.values.lastname.length === 0) {
+      errors.lastname = 'Required'
+    }
+    if (
+      this.state.values.lastname.length > 0 &&
+      this.state.values.lastname.length < 5
+    ) {
+      errors.lastname = 'Must be 5 characters or more'
+    }
+    if (this.state.values.password.length === 0) {
+      errors.password = 'Required'
+    }
+    if (
+      this.state.values.password.length > 0 &&
+      this.state.values.password.length < 6
+    ) {
+      errors.password = 'Must be 6 characters or more'
+    }
+    if (
+      this.state.values.repeatPassword !== this.state.values.password
+    ) {
+      errors.repeatPassword = 'Must be equal password'
+    }
+    return errors;
   }
 
   previousButtonClick = () => {
@@ -71,9 +92,14 @@ export default class App extends React.Component {
 
   nextButtonClick = () => {
     console.log('Next clicked')
-    this.checkErrors()
-    if (!Object.keys(this.state.errors).length) {
+    if (Object.keys(this.checkErrors()).length) {
       this.setState({
+        errors: this.checkErrors(),
+      })
+    }
+    else {
+      this.setState({
+        errors: this.checkErrors(),
         currentStep: this.state.currentStep + 1,
       })
     }
