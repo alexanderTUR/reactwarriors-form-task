@@ -38,13 +38,27 @@ export default class App extends React.Component {
   }
 
   onChange = e => {
-    // console.log(e.target.value)
-    // console.log(e.target.name)
     this.setState({
       values: {
         ...this.state.values,
         [e.target.name]: e.target.value,
       },
+    })
+  }
+
+  checkErrors = () => {
+    const errors = {}
+    if (this.state.values.firstname.length === 0) {
+      errors.firstname = 'Required'
+    }
+    if (
+      this.state.values.firstname.length > 0 &&
+      this.state.values.firstname.length < 5
+    ) {
+      errors.firstname = 'Must be 5 characters or more'
+    }
+    this.setState({
+      errors: errors,
     })
   }
 
@@ -57,9 +71,12 @@ export default class App extends React.Component {
 
   nextButtonClick = () => {
     console.log('Next clicked')
-    this.setState({
-      currentStep: this.state.currentStep + 1,
-    })
+    this.checkErrors()
+    if (!Object.keys(this.state.errors).length) {
+      this.setState({
+        currentStep: this.state.currentStep + 1,
+      })
+    }
   }
 
   resetButtonClick = () => {
@@ -78,7 +95,11 @@ export default class App extends React.Component {
             currentStep={this.state.currentStep}
           />
           {this.state.currentStep === 1 ? (
-            <FormBasic values={this.state.values} onChange={this.onChange} />
+            <FormBasic
+              values={this.state.values}
+              errors={this.state.errors}
+              onChange={this.onChange}
+            />
           ) : this.state.currentStep === 2 ? (
             <FormContacts />
           ) : this.state.currentStep === 3 ? (
