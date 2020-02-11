@@ -1,5 +1,5 @@
 import React from 'react'
-// import countries from '../data/countries'
+import countries from '../data/countries'
 // import cities from '../data/cities'
 import FormHeader from './FormHeader'
 import FormBasic from './FormBasic'
@@ -13,7 +13,7 @@ export default class App extends React.Component {
     super()
 
     this.state = {
-      currentStep: 1,
+      currentStep: 2,
       steps: [
         { id: 1, name: 'basic' },
         { id: 2, name: 'contacts' },
@@ -25,10 +25,10 @@ export default class App extends React.Component {
         lastname: '',
         password: '',
         repeatPassword: '',
-        gender: 'male',
+        gender: '',
         email: '',
         mobile: '',
-        country: '',
+        country: countries,
         city: '',
         avatar: null,
         age: 16,
@@ -43,11 +43,18 @@ export default class App extends React.Component {
         ...this.state.values,
         [e.target.name]: e.target.value,
       },
+      errors: {
+        ...this.state.errors,
+        [e.target.name]: '',
+      },
     })
   }
 
   checkErrors = () => {
     const errors = {}
+    const mailRe = /\S+@\S+\.\S+/
+    const telRe = /^([+]\d{2})?\d{10}$/
+    // console.log(mailRe.test(this.state.values.email))
     if (this.state.values.firstname.length === 0) {
       errors.firstname = 'Required'
     }
@@ -75,12 +82,31 @@ export default class App extends React.Component {
     ) {
       errors.password = 'Must be 6 characters or more'
     }
-    if (
-      this.state.values.repeatPassword !== this.state.values.password
-    ) {
+    if (this.state.values.repeatPassword !== this.state.values.password) {
       errors.repeatPassword = 'Must be equal password'
     }
-    return errors;
+    if (this.state.values.gender.length === 0) {
+      errors.gender = 'Required'
+    }
+    if (this.state.values.email.length === 0) {
+      errors.email = 'Required'
+    }
+    if (
+      this.state.values.email.length > 0 &&
+      !mailRe.test(this.state.values.email)
+    ) {
+      errors.email = 'Invalid email'
+    }
+    if (this.state.values.mobile.length === 0) {
+      errors.mobile = 'Required'
+    }
+    if (
+      this.state.values.mobile.length > 0 &&
+      !telRe.test(this.state.values.mobile)
+    ) {
+      errors.mobile = 'Invalid mobile'
+    }
+    return errors
   }
 
   previousButtonClick = () => {
@@ -96,8 +122,7 @@ export default class App extends React.Component {
       this.setState({
         errors: this.checkErrors(),
       })
-    }
-    else {
+    } else {
       this.setState({
         errors: this.checkErrors(),
         currentStep: this.state.currentStep + 1,
@@ -127,7 +152,11 @@ export default class App extends React.Component {
               onChange={this.onChange}
             />
           ) : this.state.currentStep === 2 ? (
-            <FormContacts />
+            <FormContacts
+              values={this.state.values}
+              errors={this.state.errors}
+              onChange={this.onChange}
+            />
           ) : this.state.currentStep === 3 ? (
             <FormAvatar />
           ) : (

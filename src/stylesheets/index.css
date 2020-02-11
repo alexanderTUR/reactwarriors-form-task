@@ -15,6 +15,14 @@ body {
   display: block; 
 }
 
+.form-control_invalid {
+  border-color: red;
+}
+
+.warn {
+  color: red;
+}
+
 /* .form {} */
 
 .form__header {

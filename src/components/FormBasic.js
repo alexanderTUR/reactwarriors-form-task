@@ -51,6 +51,42 @@ export default class FormBasic extends React.Component {
           onChange={this.props.onChange}
           error={this.props.errors.repeatPassword}
         />
+        <fieldset className="form-group">
+          <div className={this.props.errors.gender ? 'warn' : null}>Gender</div>
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              id="male"
+              name="gender"
+              value="male"
+              checked={this.props.values.gender === 'male'}
+              onChange={this.props.onChange}
+              error={this.props.errors.gender}
+            />
+            <label className="form-check-label" htmlFor="male">
+              Male
+            </label>
+          </div>
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              id="female"
+              name="gender"
+              value="female"
+              checked={this.props.values.gender === 'female'}
+              onChange={this.props.onChange}
+              error={this.props.errors.gender}
+            />
+            <label className="form-check-label" htmlFor="female">
+              Female
+            </label>
+          </div>
+          {this.props.errors.gender ? (
+            <div className="invalid-feedback">{this.props.errors.gender}</div>
+          ) : null}
+        </fieldset>
       </div>
     )
   }
