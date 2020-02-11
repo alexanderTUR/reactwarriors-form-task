@@ -25,8 +25,22 @@ body {
 
 /* .form {} */
 
+.form-group {
+  position: relative;
+}
+
 .form__header {
   margin-bottom: 12px;
+}
+
+.form__avatar {
+  margin-bottom: 16px;
+}
+
+.form__avatar img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .form__steps-list {

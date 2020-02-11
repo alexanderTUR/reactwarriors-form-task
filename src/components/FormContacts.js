@@ -1,57 +1,83 @@
 import React from 'react'
 import Field from './Field'
 
-export default class FormContacts extends React.Component {
-  constructor(props) {
-    super(props)
+const FormContacts = props => {
+  const {
+    values,
+    errors,
+    onChange,
+    countries,
+    cities,
+    getCountries,
+    getCities,
+  } = props
 
-    this.state = {}
-  }
-
-  getOptionItems = items => {
-    return items.map(item => (
-      <option value={item.id} key={item.id}>
-        {item.name}
-      </option>
-    ))
-  }
-
-  render() {
-    return (
-      <div className="form__body">
-        <Field
-          id="email"
-          labelText="Email"
-          type="email"
-          placeholder="Enter email"
-          name="email"
-          value={this.props.values.email}
-          onChange={this.props.onChange}
-          error={this.props.errors.email}
-        />
-        <Field
-          id="mobile"
-          labelText="Mobile"
-          type="text"
-          placeholder="Enter mobile"
-          name="mobile"
-          value={this.props.values.mobile}
-          onChange={this.props.onChange}
-          error={this.props.errors.mobile}
-        />
-        <div className="form-group">
-          <label htmlFor="country">Country</label>
-          <select
-            id="country"
-            className="form-control"
-            name="country"
-            value={this.props.values.country}
-            onChange={this.props.onChange}
-          >
-            {this.getOptionItems(this.props.values.country)}
-          </select>
-        </div>
+  return (
+    <div className="form__body">
+      <Field
+        id="email"
+        labelText="Email"
+        type="email"
+        placeholder="Enter email"
+        name="email"
+        value={values.email}
+        onChange={onChange}
+        error={errors.email}
+      />
+      <Field
+        id="mobile"
+        labelText="Mobile"
+        type="text"
+        placeholder="Enter mobile"
+        name="mobile"
+        value={values.mobile}
+        onChange={onChange}
+        error={errors.mobile}
+      />
+      <div className="form-group">
+        <label htmlFor="country">Country</label>
+        <select
+          id="country"
+          className={
+            errors.country
+              ? 'form-control form-control_invalid'
+              : 'form-control'
+          }
+          name="country"
+          value={values.country}
+          onChange={onChange}
+        >
+          <option value="0" key="0">
+            Select country
+          </option>
+          {getCountries(countries)}
+        </select>
+        {errors.country ? (
+          <div className="invalid-feedback">{errors.country}</div>
+        ) : null}
       </div>
-    )
-  }
+      <div className="form-group">
+        <label htmlFor="city">City</label>
+        <select
+          id="city"
+          className={
+            errors.city ? 'form-control form-control_invalid' : 'form-control'
+          }
+          name="city"
+          value={values.city}
+          onChange={onChange}
+        >
+          <option value="0" key="0">
+            Select city
+          </option>
+          {getCities(cities)}
+        </select>
+        {errors.city ? (
+          <div className="invalid-feedback">{errors.city}</div>
+        ) : null}
+      </div>
+    </div>
+  )
 }
+
+export default FormContacts
