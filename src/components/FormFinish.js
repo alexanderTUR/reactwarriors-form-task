@@ -27,7 +27,7 @@ const FormFinish = props => {
             </p>
             <p>
               <strong>Location: </strong>
-              {getCountryName(values.country) + ' ' + getCityName(values.city)}
+              {getCountryName(values.country) + ', ' + getCityName(values.city)}
             </p>
           </div>
         </div>
