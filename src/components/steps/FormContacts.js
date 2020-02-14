@@ -14,15 +14,23 @@ const FormContacts = props => {
       </option>
     ))
   }
+  
+  // const getCities = items =>
+  //   Object.entries(items)
+  //     .filter(elem => Number(elem[1].country) === Number(props.values.country))
+  //     .map(item => ({
+  //       id: item[0],
+  //       name: item[1].name,
+  //     }))
 
-  // TODO Try Object.keys and reduse
-  const getCities = items =>
-    Object.entries(items)
-      .filter(elem => Number(elem[1].country) === Number(props.values.country))
-      .map(item => ({
-        id: item[0],
-        name: item[1].name,
-      }))
+  const getCities = items => {
+    return Object.keys(items).reduce((acc, cur, i) => {
+      if (items[cur].country === Number(props.values.country)) {
+        acc.push({ id: i, name: items[cur].name })
+      }
+      return acc
+    }, [])
+  }
 
   return (
     <div className="form__body">

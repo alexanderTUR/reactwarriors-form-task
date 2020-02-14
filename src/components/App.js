@@ -21,8 +21,8 @@ export default class App extends React.Component {
         gender: '',
         email: '',
         mobile: '',
-        country: '0',
-        city: '0',
+        country: undefined,
+        city: undefined,
         avatar: avatar,
       },
       errors: {},
@@ -30,34 +30,26 @@ export default class App extends React.Component {
     this.state = { ...this.initialState }
   }
 
-  onChangeAvatar = e => {
-    const reader = new FileReader()
-    reader.onload = e => {
+  onChange = e => {
+    const { name, value } = e.target
+    if (name === 'country') {
       this.setState({
         values: {
           ...this.state.values,
-          avatar: e.target.result,
-        },
-        errors: {
-          ...this.state.errors,
-          avatar: '',
+          city: '',
         },
       })
     }
-    reader.readAsDataURL(e.target.files[0])
-  }
-
-  onChange = e => {
-    this.setState({
+    this.setState(state => ({
       values: {
-        ...this.state.values,
-        [e.target.name]: e.target.value,
+        ...state.values,
+        [name]: value,
       },
       errors: {
-        ...this.state.errors,
-        [e.target.name]: '',
+        ...state.errors,
+        [name]: null,
       },
-    })
+    }))
   }
 
   checkErrors = () => {
@@ -119,10 +111,18 @@ export default class App extends React.Component {
         ) {
           errors.mobile = 'Invalid mobile (should be 10 numeric)'
         }
-        if (this.state.values.country === '0') {
+        if (
+          this.state.values.country === null ||
+          this.state.values.country === undefined ||
+          this.state.values.country === ''
+        ) {
           errors.country = 'Required'
         }
-        if (this.state.values.city === '0') {
+        if (
+          this.state.values.city === null ||
+          this.state.values.city === undefined ||
+          this.state.values.city === ''
+        ) {
           errors.city = 'Required'
         }
         break
@@ -182,7 +182,7 @@ export default class App extends React.Component {
             <FormAvatar
               values={this.state.values}
               errors={this.state.errors}
-              onChangeAvatar={this.onChangeAvatar}
+              onChange={this.onChange}
             />
           ) : (
             <FormFinish values={this.state.values} />

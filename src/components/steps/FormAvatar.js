@@ -2,7 +2,20 @@ import React from 'react'
 import cx from 'classnames'
 
 const FormAvatar = props => {
-  const { values, errors, onChangeAvatar } = props
+  const { values, errors, onChange } = props
+
+  const onChangeAvatar = e => {
+    const reader = new FileReader()
+    reader.onload = e => {
+      onChange({
+        target: {
+          name: 'avatar',
+          value: e.target.result,
+        },
+      })
+    }
+    reader.readAsDataURL(e.target.files[0])
+  }
 
   return (
     <div className="form__body">
