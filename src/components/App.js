@@ -1,28 +1,18 @@
 import React from 'react'
-import countries from '../data/countries'
-import cities from '../data/cities'
 import avatar from '../img/empty-avatar.png'
-import FormHeader from './FormHeader'
-import FormBasic from './FormBasic'
-import FormContacts from './FormContacts'
-import FormAvatar from './FormAvatar'
-import FormFinish from './FormFinish'
-import FormFooter from './FormFooter'
+import FormHeader from './layouts/FormHeader'
+import FormBasic from './steps/FormBasic'
+import FormContacts from './steps/FormContacts'
+import FormAvatar from './steps/FormAvatar'
+import FormFinish from './steps/FormFinish'
+import FormFooter from './layouts/FormFooter'
 
 export default class App extends React.Component {
   constructor() {
     super()
 
     this.initialState = {
-      countries: countries,
-      cities: cities,
-      currentStep: 1,
-      steps: [
-        { id: 1, name: 'basic' },
-        { id: 2, name: 'contacts' },
-        { id: 3, name: 'avatar' },
-        { id: 4, name: 'finish' },
-      ],
+      currentStep: 2,
       values: {
         firstname: '',
         lastname: '',
@@ -38,26 +28,6 @@ export default class App extends React.Component {
       errors: {},
     }
     this.state = { ...this.initialState }
-  }
-
-  getCountries = items => {
-    return items.map(item => (
-      <option value={item.id} key={item.id}>
-        {item.name}
-      </option>
-    ))
-  }
-
-  getCities = items => {
-    const citiesArray = Object.entries(items)
-    const filtredCities = citiesArray.filter(elem => {
-      return elem[1].country === +this.state.values.country
-    })
-    return filtredCities.map(item => (
-      <option value={item[0]} key={item[0]}>
-        {item[1].name}
-      </option>
-    ))
   }
 
   getCountryName = id => {
@@ -177,49 +147,35 @@ export default class App extends React.Component {
     return errors
   }
 
-  previousButtonClick = () => {
-    console.log('Prev clicked')
+  handlePreviousStep = () => {
     this.setState({
       currentStep: this.state.currentStep - 1,
     })
   }
 
-  nextButtonClick = () => {
-    console.log('Next clicked')
+  handleNextStep = () => {
+    const errors = this.checkErrors()
     if (Object.keys(this.checkErrors()).length) {
       this.setState({
-        errors: this.checkErrors(),
+        errors,
       })
     } else {
       this.setState({
-        errors: this.checkErrors(),
+        errors,
         currentStep: this.state.currentStep + 1,
       })
     }
   }
 
-  resetButtonClick = () => {
-    console.log('Reset clicked')
-    this.setState({
-      values: {
-        ...this.initialState.values,
-      },
-      errors: {
-        ...this.initialState.errors,
-        avatar: '',
-      },
-      currentStep: 1,
-    })
+  handleReset = () => {
+    this.setState(this.initialState)
   }
 
   render() {
     return (
       <div className="form-container card">
         <form className="form card-body">
-          <FormHeader
-            steps={this.state.steps}
-            currentStep={this.state.currentStep}
-          />
+          <FormHeader currentStep={this.state.currentStep} />
           {this.state.currentStep === 1 ? (
             <FormBasic
               values={this.state.values}
@@ -231,10 +187,6 @@ export default class App extends React.Component {
               values={this.state.values}
               errors={this.state.errors}
               onChange={this.onChange}
-              countries={this.state.countries}
-              cities={this.state.cities}
-              getCountries={this.getCountries}
-              getCities={this.getCities}
             />
           ) : this.state.currentStep === 3 ? (
             <FormAvatar
@@ -250,9 +202,9 @@ export default class App extends React.Component {
             />
           )}
           <FormFooter
-            previousButtonClick={this.previousButtonClick}
-            nextButtonClick={this.nextButtonClick}
-            resetButtonClick={this.resetButtonClick}
+            handlePreviousStep={this.handlePreviousStep}
+            handleNextStep={this.handleNextStep}
+            handleReset={this.handleReset}
             currentStep={this.state.currentStep}
           />
         </form>

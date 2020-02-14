@@ -1,12 +1,7 @@
 import React from 'react'
 
 const FormFooter = props => {
-  const {
-    previousButtonClick,
-    nextButtonClick,
-    resetButtonClick,
-    currentStep,
-  } = props
+  const { handlePreviousStep, handleNextStep, handleReset, currentStep } = props
 
   return (
     <footer className="form__footer">
@@ -15,7 +10,7 @@ const FormFooter = props => {
           <button
             className="btn btn-secondary"
             type="button"
-            onClick={previousButtonClick}
+            onClick={handlePreviousStep}
             disabled={currentStep === 1}
           >
             Previous
@@ -23,7 +18,7 @@ const FormFooter = props => {
           <button
             className="btn btn-secondary"
             type="button"
-            onClick={nextButtonClick}
+            onClick={handleNextStep}
           >
             Next
           </button>
@@ -33,7 +28,7 @@ const FormFooter = props => {
           <button
             className="btn btn-secondary"
             type="button"
-            onClick={resetButtonClick}
+            onClick={handleReset}
           >
             Reset
           </button>

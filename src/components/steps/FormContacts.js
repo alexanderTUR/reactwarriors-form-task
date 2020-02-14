@@ -1,16 +1,28 @@
 import React from 'react'
-import Field from './Field'
+import cx from 'classnames'
+import Field from '../elements/Field'
+import countries from '../../data/countries'
+import cities from '../../data/cities'
 
 const FormContacts = props => {
-  const {
-    values,
-    errors,
-    onChange,
-    countries,
-    cities,
-    getCountries,
-    getCities,
-  } = props
+  const { values, errors, onChange } = props
+
+  const getOptions = items => {
+    return items.map(item => (
+      <option value={item.id} key={item.id}>
+        {item.name}
+      </option>
+    ))
+  }
+
+  // TODO Try Object.keys and reduse
+  const getCities = items =>
+    Object.entries(items)
+      .filter(elem => Number(elem[1].country) === Number(props.values.country))
+      .map(item => ({
+        id: item[0],
+        name: item[1].name,
+      }))
 
   return (
     <div className="form__body">
@@ -38,11 +50,9 @@ const FormContacts = props => {
         <label htmlFor="country">Country</label>
         <select
           id="country"
-          className={
-            errors.country
-              ? 'form-control form-control_invalid'
-              : 'form-control'
-          }
+          className={cx('form-control', {
+            'form-control_invalid': errors.country,
+          })}
           name="country"
           value={values.country}
           onChange={onChange}
@@ -50,7 +60,7 @@ const FormContacts = props => {
           <option value="0" key="0">
             Select country
           </option>
-          {getCountries(countries)}
+          {getOptions(countries)}
         </select>
         {errors.country ? (
           <div className="invalid-feedback">{errors.country}</div>
@@ -70,7 +80,7 @@ const FormContacts = props => {
           <option value="0" key="0">
             Select city
           </option>
-          {getCities(cities)}
+          {getOptions(getCities(cities))}
         </select>
         {errors.city ? (
           <div className="invalid-feedback">{errors.city}</div>

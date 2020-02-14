@@ -1,5 +1,5 @@
 import React from 'react'
-import Field from './Field'
+import Field from '../elements/Field'
 
 const FormBasic = props => {
   const { values, errors, onChange } = props
