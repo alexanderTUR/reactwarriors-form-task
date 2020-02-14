@@ -1,11 +1,11 @@
 import React from 'react'
-import Field from '../elements/Field'
+import FormField from '../elements/FormField'
 
 const FormBasic = props => {
   const { values, errors, onChange } = props
   return (
     <div className="form__body">
-      <Field
+      <FormField
         id="firstname"
         labelText="Firstname"
         type="text"
@@ -15,7 +15,7 @@ const FormBasic = props => {
         onChange={onChange}
         error={errors.firstname}
       />
-      <Field
+      <FormField
         id="lastname"
         labelText="Lastname"
         type="text"
@@ -25,7 +25,7 @@ const FormBasic = props => {
         onChange={onChange}
         error={errors.lastname}
       />
-      <Field
+      <FormField
         id="password"
         labelText="Password"
         type="password"
@@ -35,7 +35,7 @@ const FormBasic = props => {
         onChange={onChange}
         error={errors.password}
       />
-      <Field
+      <FormField
         id="repeatPassword"
         labelText="Repeat Password"
         type="password"

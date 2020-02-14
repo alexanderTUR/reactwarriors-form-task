@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import Field from '../elements/Field'
+import FormField from '../elements/FormField'
 import countries from '../../data/countries'
 import cities from '../../data/cities'
 
@@ -26,7 +26,7 @@ const FormContacts = props => {
 
   return (
     <div className="form__body">
-      <Field
+      <FormField
         id="email"
         labelText="Email"
         type="email"
@@ -36,7 +36,7 @@ const FormContacts = props => {
         onChange={onChange}
         error={errors.email}
       />
-      <Field
+      <FormField
         id="mobile"
         labelText="Mobile"
         type="text"
@@ -57,7 +57,7 @@ const FormContacts = props => {
           value={values.country}
           onChange={onChange}
         >
-          <option value="0" key="0">
+          <option value="" key="0">
             Select country
           </option>
           {getOptions(countries)}
@@ -70,14 +70,14 @@ const FormContacts = props => {
         <label htmlFor="city">City</label>
         <select
           id="city"
-          className={
-            errors.city ? 'form-control form-control_invalid' : 'form-control'
-          }
+          className={cx('form-control', {
+            'form-control_invalid': errors.city,
+          })}
           name="city"
           value={values.city}
           onChange={onChange}
         >
-          <option value="0" key="0">
+          <option value="" key="0">
             Select city
           </option>
           {getOptions(getCities(cities))}

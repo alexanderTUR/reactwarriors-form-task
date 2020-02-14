@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 
 const FormAvatar = props => {
   const { values, errors, onChangeAvatar } = props
@@ -17,11 +18,9 @@ const FormAvatar = props => {
         />
         <label
           htmlFor="avatar"
-          className={
-            errors.avatar
-              ? 'custom-file-label form-control_invalid'
-              : 'custom-file-label'
-          }
+          className={cx('custom-file-label', {
+            'form-control_invalid': errors.avatar,
+          })}
         >
           Choose Avatar
         </label>

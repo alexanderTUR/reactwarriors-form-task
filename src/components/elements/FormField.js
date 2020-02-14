@@ -1,6 +1,7 @@
 import React from 'react'
+import cx from 'classnames'
 
-const Field = props => {
+const FormField = props => {
   const {
     id,
     labelText,
@@ -18,7 +19,9 @@ const Field = props => {
       <input
         id={id}
         type={type}
-        className={error ? 'form-control form-control_invalid' : 'form-control'}
+        className={cx('form-control', {
+          'form-control_invalid': error,
+        })}
         placeholder={placeholder}
         name={name}
         value={value}
@@ -29,4 +32,4 @@ const Field = props => {
   )
 }
 
-export default Field
+export default FormField

@@ -12,7 +12,7 @@ export default class App extends React.Component {
     super()
 
     this.initialState = {
-      currentStep: 2,
+      currentStep: 1,
       values: {
         firstname: '',
         lastname: '',
@@ -28,15 +28,6 @@ export default class App extends React.Component {
       errors: {},
     }
     this.state = { ...this.initialState }
-  }
-
-  getCountryName = id => {
-    const result = this.state.countries.find(item => item.id === +id)
-    return result.name
-  }
-
-  getCityName = id => {
-    return this.state.cities[id].name
   }
 
   onChangeAvatar = e => {
@@ -143,7 +134,6 @@ export default class App extends React.Component {
       default:
         return null
     }
-
     return errors
   }
 
@@ -155,7 +145,7 @@ export default class App extends React.Component {
 
   handleNextStep = () => {
     const errors = this.checkErrors()
-    if (Object.keys(this.checkErrors()).length) {
+    if (Object.keys(errors).length) {
       this.setState({
         errors,
       })
@@ -195,11 +185,7 @@ export default class App extends React.Component {
               onChangeAvatar={this.onChangeAvatar}
             />
           ) : (
-            <FormFinish
-              values={this.state.values}
-              getCountryName={this.getCountryName}
-              getCityName={this.getCityName}
-            />
+            <FormFinish values={this.state.values} />
           )}
           <FormFooter
             handlePreviousStep={this.handlePreviousStep}
